@@ -7,7 +7,9 @@
 * Docker
 * [Eventeum](https://github.com/eventeum) with a modified technical part  
 
-## About the project
+## About the project  
+![image](https://github.com/Remittimus/BlockchainAnalysisSystem/assets/56563715/2912b977-0720-48a1-933b-36886f819b86)  
+
 This is a full-fledged website with the ability to register, subscribe and track transactions with the display of statistics. All you need is access to an Ethereum node and an address whose outgoing or incoming transactions you are interested in.  
 
 ![image](https://github.com/Remittimus/BlockchainAnalysisSystem/assets/56563715/0229ccb8-5fee-440f-b45f-3485e251766b)  
