@@ -14,7 +14,7 @@ This is a full-fledged website with the ability to register, subscribe and track
 
 By creating a subscription and setting filters for it, you will start receiving transactions that match your conditions.  
 Please note that information will not appear immediately. On average, one block per ethereum is formed in about 10 seconds.  
-The information is contained in the tables, which you can see by clicking on the subscription address. Don't be afraid of a lot of information, you can always turn off unnecessary columns and sort the data (if you haven't already)  
+The information is contained in the tables, which you can see by clicking on the subscription address. Don't be afraid of a lot of information, you can always turn off unnecessary columns and sort the data (if you haven't already).  
 
 ![image](https://github.com/Remittimus/BlockchainAnalysisSystem/assets/56563715/f1954255-3f0b-42d2-b559-4bda8dd0a383)
 
