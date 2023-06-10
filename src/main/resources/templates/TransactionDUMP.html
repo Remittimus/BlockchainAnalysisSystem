@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Transactions</title>
+</head>
+<body>
+<table width="1%" border="1" cellspacing="0" cellpadding="8">
+    <thead>
+    <tr>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="t : ${transactions}">
+        <td th:text="${t.getBlock_id()}"></td>
+        <td th:text="${t.getIndex()}"></td>
+        <td th:text="${t.getHash()}"></td>
+        <td th:text="${t.getTime()}"></td>
+        <td th:text="${t.getFailed()}"></td>
+        <td th:text="${t.getType()}"></td>
+        <td th:text="${t.getSender()}"></td>
+        <td th:text="${t.getRecipient()}"></td>
+        <td th:text="${t.getCall_count()}"></td>
+        <td th:text="${t.getValue()}"></td>
+        <td th:text="${t.getValue_usd()}"></td>
+        <td th:text="${t.getInternal_value()}"></td>
+        <td th:text="${t.getInternal_value_usd()}"></td>
+        <td th:text="${t.getFee()}"></td>
+        <td th:text="${t.getFee_usd()}"></td>
+        <td th:text="${t.getGas_used()}"></td>
+        <td th:text="${t.getGas_limit()}"></td>
+        <td th:text="${t.getGas_price()}"></td>
+        <td th:text="${t.getInput_hex()}"></td>
+        <td th:text="${t.getNonce()}"></td>
+        <td th:text="${t.getV()}"></td>
+        <td th:text="${t.getR()}"></td>
+        <td th:text="${t.getS()}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

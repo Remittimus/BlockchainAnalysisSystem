@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Register</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css"/>
+    <!--===============================================================================================-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="vendor/css-hamburgers/hamburgers.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="vendor/select2/select2.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <!--===============================================================================================-->
+</head>
+<body>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100">
+            <form method="POST" id="RegisterForm" th:action="@{/registration}" class="login100-form validate-form">
+                <div class="form-titles">
+              <span class="login100-form-title">
+                Blockchain<br/>Analysis<br/>System<br/>
+              </span>
+                    <svg
+                            height="0"
+                            class="title-icon"
+                            viewBox="0 0 796 795"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                                d="M80 715L80.4006 40.5C80.4006 18.5514 59.6501 0.71344 37.4007 0.501892C15.183 0.71344 0.400572 18.5514 0.400572 40.5L0 714.922V715.078C0 759.198 30.68 795 75.52 795H754.899C777.339 795 795.5 777.08 795.5 755C795.5 732.92 777.339 715 754.899 715H80Z"
+                                fill="black"
+                        />
+                    </svg>
+                </div>
+
+                <div class="form-line"></div>
+
+                <div class="form-controls">
+
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" id="email" name="email" placeholder="Email"/>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+            </span>
+                    </div>
+
+                    <div class="wrap-input100 validate-input" data-validate="Valid email is required: ex@abc.xyz">
+                        <input class="input100" type="text" id="username" name="username" placeholder="Login"/>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+              <i class="fa fa-user-circle-o" aria-hidden="true"></i>
+            </span>
+                    </div>
+
+
+                    <div class="wrap-input100 validate-input" data-validate="Password is required">
+                        <input class="input100" type="password" id="password" name="password" placeholder="Password"/>
+                        <span class="focus-input100"></span>
+                        <span class="symbol-input100">
+              <i class="fa fa-lock" aria-hidden="true"></i>
+            </span>
+                    </div>
+
+                    <div class="container-login100-form-btn">
+                        <button class="login100-form-btn" type="submit">Register</button>
+
+                    </div>
+
+                </div>
+                <!--            <div class="form-controls">-->
+                <!--              <div-->
+                <!--                class="wrap-input100 validate-input"-->
+                <!--                data-validate="Valid email is required: ex@abc.xyz"-->
+                <!--              >-->
+                <!--                <input-->
+                <!--                  class="input100"-->
+                <!--                  type="text"-->
+                <!--                  name="email"-->
+                <!--                  placeholder="Email"-->
+                <!--                />-->
+                <!--                <span class="focus-input100"></span>-->
+                <!--                <span class="symbol-input100">-->
+                <!--                  <i class="fa fa-envelope" aria-hidden="true"></i>-->
+                <!--                </span>-->
+                <!--              </div>-->
+                <!--              <div-->
+                <!--                class="wrap-input100 validate-input"-->
+                <!--                data-validate="Password is required"-->
+                <!--              >-->
+                <!--                <input-->
+                <!--                  class="input100"-->
+                <!--                  type="password"-->
+                <!--                  name="pass"-->
+                <!--                  placeholder="Password"-->
+                <!--                />-->
+                <!--                <span class="focus-input100"></span>-->
+                <!--                <span class="symbol-input100">-->
+                <!--                  <i class="fa fa-lock" aria-hidden="true"></i>-->
+                <!--                </span>-->
+                <!--              </div>-->
+                <!--              <div class="container-login100-form-btn">-->
+                <!--                <button class="login100-form-btn">Login</button>-->
+                <!--              </div>-->
+                <!--            </div>-->
+
+                <!-- <div class="text-center p-t-12">
+                            <span class="txt1">
+                                Forgot
+                            </span>
+                            <a class="txt2" href="#">
+                                Username / Password?
+                            </a>
+                        </div> -->
+
+                <!-- <div class="text-center ">
+                            <a class="txt2" href="#">
+                                Create your Account
+                                <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
+                            </a>
+                        </div> -->
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/tilt/tilt.jquery.min.js"></script>
+<script>
+    $(".js-tilt").tilt({
+        scale: 1.1,
+    });
+</script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+</body>
+</html>

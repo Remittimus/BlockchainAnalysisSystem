@@ -1,0 +1,6 @@
+FROM openjdk:19
+ADD ./Platform.jar Platform.jar
+ADD docker-scripts/start-platform.sh start-platform.sh
+ENV CONF ""
+EXPOSE 8080
+CMD chmod +x start-platform.sh && ./start-platform.sh

@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Transactions</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/css-hamburgers/hamburgers.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/select2/select2.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <!--===============================================================================================-->
+  </head>
+
+  <body>
+    <div class="background-container">
+      <header class="header-wrapper">
+        <div class="left-wing">
+          <a class="link" href="/subscribe">Subscribe</a>
+
+          <a class="link" href="/subscriptions">Subscriptions</a>
+        </div>
+        <a class="logo" href="/">
+          <svg
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M924.086857 282.843429l-362.057143 210.724571v415.378286s227.108571-137.728 238.738286-144.384c11.190857-6.436571 26.331429 0.731429 28.891429 17.554285 0.146286 0.731429 1.462857 4.973714 1.462857 5.705143 1.536 18.212571-0.731429 26.770286-12.580572 33.718857l-273.993143 162.742858c-6.948571 3.510857-16.091429 5.485714-30.72-1.755429-7.168-3.218286-424.301714-255.268571-424.301714-255.268571a24.649143 24.649143 0 0 1-11.702857-20.772572V251.611429c0-2.486857-2.413714-25.526857 13.385143-35.913143L517.558857 2.633143a24.137143 24.137143 0 0 1 21.796572 0l426.276571 213.138286c9.508571 4.827429 17.481143 14.628571 16.749714 23.844571a29.622857 29.622857 0 0 1 0.512 5.412571v437.028572c0 16.164571-13.165714 29.257143-29.330285 29.257143h-0.073143a29.403429 29.403429 0 0 1-29.403429-29.330286V282.843429zM495.908571 903.972571V493.714286L141.604571 290.230857v397.677714L495.908571 904.045714zM191.195429 236.251429l337.188571 191.122285 337.042286-191.122285L528.310857 67.876571 191.195429 236.251429z"
+            />
+          </svg>
+        </a>
+        <div class="right-wing">
+          <a class="link" href="/instruction">Instruction</a>
+          <form id="logout" th:action="@{/logout}" method="post">
+            <a
+              class="link"
+              onclick="document.getElementById('logout').submit();return false;"
+              >Exit</a
+            >
+          </form>
+        </div>
+      </header>
+      <div class="wrap-container">
+        <div class="page-wrapper">
+          <div class="filters-wrapper">
+            <div class="filters-group">
+              <div class="filters-title">Table fields:</div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="timestamp" type="checkbox" checked />
+                <label class="cbx" for="timestamp"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Timestamp</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="from" type="checkbox" checked />
+                <label class="cbx" for="from"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>From</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="to" type="checkbox" checked />
+                <label class="cbx" for="to"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>To</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="value" type="checkbox" checked />
+                <label class="cbx" for="value"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Value(ETH)</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="status" type="checkbox" checked />
+                <label class="cbx" for="status"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Status</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="id" type="checkbox" checked />
+                <label class="cbx" for="id"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>ID</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="type" type="checkbox" checked />
+                <label class="cbx" for="type"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Type</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="hash" type="checkbox" checked />
+                <label class="cbx" for="hash"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Hash</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="nonce" type="checkbox" checked />
+                <label class="cbx" for="nonce"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Nonce</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input
+                  class="inp-cbx"
+                  id="block_number"
+                  type="checkbox"
+                  checked
+                />
+                <label class="cbx" for="block_number"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Block number</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input
+                  class="inp-cbx"
+                  id="transaction_index"
+                  type="checkbox"
+                  checked
+                />
+                <label class="cbx" for="transaction_index"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Transaction index</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="node_name" type="checkbox" checked />
+                <label class="cbx" for="node_name"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Node name</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="input" type="checkbox" checked />
+                <label class="cbx" for="input"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Input</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="gas_limit" type="checkbox" checked />
+                <label class="cbx" for="gas_limit"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Gas Limit</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="gas_price" type="checkbox" checked />
+                <label class="cbx" for="gas_price"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>Gas Price(GWei)</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="r" type="checkbox" checked />
+                <label class="cbx" for="r"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>r</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="s" type="checkbox" checked />
+                <label class="cbx" for="s"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>s</span></label
+                >
+              </div>
+              <div class="cbx-wrapper">
+                <input class="inp-cbx" id="v" type="checkbox" checked />
+                <label class="cbx" for="v"
+                  ><span
+                    ><svg width="12px" height="10px" viewbox="0 0 12 10">
+                      <polyline
+                        points="1.5 6 4.5 9 10.5 1"
+                      ></polyline></svg></span
+                  ><span>v</span></label
+                >
+              </div>
+            </div>
+            <form
+              class="sort-table-selecter"
+              method="POST"
+              id="loginForm"
+              th:action="@{/Transactions}"
+            >
+              <div class="filters-group filters-fields">
+                <div class="filters-title">Filters:</div>
+
+                <div class="filter-group">
+                  <div class="validate-input left">
+                    <input
+                      class="filter-field-input input100"
+                      name="minValue"
+                      type="number"
+                      placeholder="ETH price from"
+                      th:value="${filter.getMinValue()}"
+                    />
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                      <i class="fa fa-dollar" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <div class="validate-input right">
+                    <input
+                      class="filter-field-input input100"
+                      name="maxValue"
+                      type="number"
+                      placeholder="ETH price to"
+                      th:value="${filter.getMaxValue()}"
+                    />
+                    <span class="focus-input100"></span>
+                  </div>
+                </div>
+                <div class="filter-group">
+                  <div class="validate-input left">
+                    <input
+                      class="filter-field-input input100"
+                      name="startDate"
+                      type="datetime-local"
+                      placeholder="Date from"
+                      th:value="${filter.getStartDate()}"
+                    />
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                      <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <div class="validate-input right">
+                    <input
+                      class="filter-field-input input100"
+                      name="endDate"
+                      type="datetime-local"
+                      placeholder="Date to"
+                      th:value="${filter.getEndDate()}"
+                    />
+                    <span class="focus-input100"></span>
+                  </div>
+                </div>
+                <div class="filter-group">
+                  <div class="filters-title">Order By:</div>
+                  <style>
+                    OPTION {
+                      background: rgba(
+                        35,
+                        74,
+                        117
+                      ); /* Цвет фона //TODO: REMOVE HARDCODE */
+                      color: #fff; /* Цвет текста */
+                      backdrop-filter: blur(10px);
+                    }
+                  </style>
+                  <div class="validate-input">
+                    <select
+                      class="filter-field-input input100"
+                      id="orderBy"
+                      name="orderBy"
+                      placeholder="Subscribe to"
+                    >
+                      <option
+                        th:value="${filter.getOrderBy()}"
+                        th:text="${filter.getOrderBy()}"
+                        selected
+                        hidden
+                      ></option>
+                      <option
+                        th:each="choice : ${orderTypes}"
+                        th:value="${choice}"
+                        th:text="${choice}"
+                      ></option>
+                    </select>
+
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100"> </span>
+                  </div>
+                  <div class="validate-input">
+                    <select
+                      class="filter-field-input input100"
+                      id="AscOrDesc"
+                      name="orderType"
+                    >
+                      <option
+                        th:value="${filter.getOrderType()}"
+                        th:text="${filter.getOrderType()}"
+                        selected
+                        hidden
+                      ></option>
+                      <option value="asc">asc</option>
+                      <option value="desc">desc</option>
+                    </select>
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100"> </span>
+                  </div>
+                  <input type="hidden" name="id" th:value="${subscriptionId}" />
+                  <button class="confirm-buttons" type="submit">Select</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!--              <script>-->
+          <!--                // Получаем ссылку на форму-->
+          <!--                var form = document.getElementById('loginForm');-->
+
+          <!--                // Добавляем обработчик события отправки формы-->
+          <!--                form.addEventListener('submit', function(event) {-->
+          <!--                  event.preventDefault(); // Предотвращаем стандартное поведение формы (перезагрузку страницы)-->
+
+          <!--                  // Получаем данные из формы-->
+          <!--                  var formData = new FormData(form);-->
+
+          <!--                  // Отправляем запрос на сервер-->
+          <!--                  var xhr = new XMLHttpRequest();-->
+          <!--                  xhr.open('POST', form.action, true);-->
+          <!--                  xhr.onload = function() {-->
+          <!--                    if (xhr.status === 200) {-->
+          <!--                      // Обработка успешного ответа от сервера-->
+          <!--                      console.log(xhr.responseText);-->
+          <!--                    } else {-->
+          <!--                      // Обработка ошибки-->
+          <!--                      console.error(xhr.responseText);-->
+          <!--                    }-->
+          <!--                  };-->
+          <!--                  xhr.onerror = function() {-->
+          <!--                    // Обработка ошибки-->
+          <!--                    console.error(xhr.responseText);-->
+          <!--                  };-->
+          <!--                  xhr.send(formData);-->
+          <!--                });-->
+          <!--              </script>-->
+
+          <div class="table-wrapper">
+            <!-- TODO: смени collection на что-то другое -->
+            <!--            <table th:if="${transactions.isEmpty()}" class="table">-->
+            <table th:if="${not transactions.isEmpty()}" class="table">
+              <thead>
+                <tr>
+                  <th
+                    data-column-name="timestamp"
+                    onclick="sortTable('timestamp')"
+                  >
+                    Timestamp
+                  </th>
+                  <th data-column-name="from" onclick="sortTable('from')">
+                    From
+                  </th>
+                  <th data-column-name="to" onclick="sortTable('to')">To</th>
+                  <th data-column-name="value" onclick="sortTable('value')">
+                    Value(ETH)
+                  </th>
+                  <th data-column-name="status" onclick="sortTable('status')">
+                    Status
+                  </th>
+                  <th data-column-name="id" onclick="sortTable('id')">ID</th>
+                  <th data-column-name="type" onclick="sortTable('type')">
+                    Type
+                  </th>
+                  <th data-column-name="hash" onclick="sortTable('hash')">
+                    Hash
+                  </th>
+                  <th data-column-name="nonce" onclick="sortTable('nonce')">
+                    Nonce
+                  </th>
+                  <th
+                    data-column-name="block_number"
+                    onclick="sortTable('block_number')"
+                  >
+                    Block number
+                  </th>
+                  <th
+                    data-column-name="transaction_index"
+                    onclick="sortTable('transaction_index')"
+                  >
+                    Transaction index
+                  </th>
+                  <th
+                    data-column-name="node_name"
+                    onclick="sortTable('node_name')"
+                  >
+                    Node name
+                  </th>
+                  <th data-column-name="input" onclick="sortTable('input')">
+                    Input
+                  </th>
+                  <th
+                    data-column-name="gas_limit"
+                    onclick="sortTable('gas_limit')"
+                  >
+                    Gas Limit
+                  </th>
+                  <th
+                    data-column-name="gas_price"
+                    onclick="sortTable('gas_price')"
+                  >
+                    Gas Price(GWei)
+                  </th>
+                  <th data-column-name="r" onclick="sortTable('r')">r</th>
+                  <th data-column-name="s" onclick="sortTable('s')">s</th>
+                  <th data-column-name="v" onclick="sortTable('v')">v</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="t : ${transactions}">
+                  <td
+                    data-column-name="timestamp"
+                    th:text="${t.getTimestamp().toString()}"
+                  ></td>
+                  <td data-column-name="from" th:text="${t.getFrom()}"></td>
+                  <td data-column-name="to" th:text="${t.getTo()}"></td>
+                  <td data-column-name="value" th:text="${t.getValue()}"></td>
+                  <td data-column-name="status" th:text="${t.getStatus()}"></td>
+                  <td data-column-name="id" th:text="${t.getId()}"></td>
+                  <td data-column-name="type" th:text="${t.getType()}"></td>
+                  <td data-column-name="hash" th:text="${t.getHash()}"></td>
+                  <td data-column-name="nonce" th:text="${t.getNonce()}"></td>
+                  <td
+                    data-column-name="block_number"
+                    th:text="${t.getBlockNumber()}"
+                  ></td>
+                  <td
+                    data-column-name="transaction_index"
+                    th:text="${t.getTransactionIndex()}"
+                  ></td>
+                  <td
+                    data-column-name="node_name"
+                    th:text="${t.getNodeName()}"
+                  ></td>
+                  <td data-column-name="input" th:text="${t.getInput()}"></td>
+                  <td
+                    data-column-name="gas_limit"
+                    th:text="${t.getGasLimit()}"
+                  ></td>
+                  <td
+                    data-column-name="gas_price"
+                    th:text="${t.getGasPrice()}"
+                  ></td>
+                  <td data-column-name="r" th:text="${t.getR()}"></td>
+                  <td data-column-name="s" th:text="${t.getS()}"></td>
+                  <td data-column-name="v" th:text="${t.getV()}"></td>
+                </tr>
+                <!-- data for local testing -->
+              </tbody>
+            </table>
+            <!-- TODO: смени collection на что-то другое и раскомменть -->
+            <div th:if="${ transactions.isEmpty()}" class="empty-text">
+              There are no transactions at this time
+            </div>
+          </div>
+          <script>
+            function sortTable(columnName) {
+              const table = document.querySelector(".table");
+              const tbody = table.querySelector("tbody");
+              const rows = Array.from(tbody.getElementsByTagName("tr"));
+
+              const numericColumns = [
+                "value",
+                "block_number",
+                "transaction_index",
+                "gas_limit",
+                "gas_price",
+                "r",
+                "s",
+                "v",
+              ];
+
+              let sortOrder = "asc";
+              if (table.getAttribute("data-sort-column") === columnName) {
+                const currentSortOrder = table.getAttribute("data-sort-order");
+                sortOrder = currentSortOrder === "asc" ? "desc" : "asc";
+              }
+
+              table.setAttribute("data-sort-column", columnName);
+              table.setAttribute("data-sort-order", sortOrder);
+
+              rows.sort((a, b) => {
+                const aValue = a.querySelector(
+                  `[data-column-name="${columnName}"]`
+                ).innerText;
+                const bValue = b.querySelector(
+                  `[data-column-name="${columnName}"]`
+                ).innerText;
+
+                if (numericColumns.includes(columnName)) {
+                  return sortOrder === "asc"
+                    ? aValue - bValue
+                    : bValue - aValue;
+                } else {
+                  return sortOrder === "asc"
+                    ? aValue.localeCompare(bValue)
+                    : bValue.localeCompare(aValue);
+                }
+              });
+
+              rows.forEach((row) => tbody.appendChild(row));
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+              var checkboxes = document.querySelectorAll(".inp-cbx");
+              checkboxes.forEach(function (checkbox) {
+                checkbox.addEventListener("change", function () {
+                  var columnAttr = checkbox.getAttribute("id");
+                  var column = document.querySelectorAll(
+                    '[data-column-name="' + columnAttr + '"]'
+                  );
+
+                  if (checkbox.checked) {
+                    column.forEach(function (col) {
+                      col.style.display = "table-cell";
+                    });
+                  } else {
+                    column.forEach(function (col) {
+                      col.style.display = "none";
+                    });
+                  }
+                });
+              });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

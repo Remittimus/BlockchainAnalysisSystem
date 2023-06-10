@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Create Subscription</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+    <!--===============================================================================================-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css"/>
+    <!--===============================================================================================-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="vendor/css-hamburgers/hamburgers.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="vendor/select2/select2.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css"/>
+    <link rel="stylesheet" type="text/css" href="css/main.css"/>
+    <!--===============================================================================================-->
+</head>
+<body>
+<div class="background-container">
+    <header class="header-wrapper">
+        <div class="left-wing">
+            <a class="link active" href="/subscribe">Subscribe</a>
+
+            <a class="link " href="/subscriptions">Subscriptions</a>
+        </div>
+        <a class="logo" href="/">
+            <svg
+                    viewBox="0 0 1024 1024"
+                    version="1.1"
+                    xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                        d="M924.086857 282.843429l-362.057143 210.724571v415.378286s227.108571-137.728 238.738286-144.384c11.190857-6.436571 26.331429 0.731429 28.891429 17.554285 0.146286 0.731429 1.462857 4.973714 1.462857 5.705143 1.536 18.212571-0.731429 26.770286-12.580572 33.718857l-273.993143 162.742858c-6.948571 3.510857-16.091429 5.485714-30.72-1.755429-7.168-3.218286-424.301714-255.268571-424.301714-255.268571a24.649143 24.649143 0 0 1-11.702857-20.772572V251.611429c0-2.486857-2.413714-25.526857 13.385143-35.913143L517.558857 2.633143a24.137143 24.137143 0 0 1 21.796572 0l426.276571 213.138286c9.508571 4.827429 17.481143 14.628571 16.749714 23.844571a29.622857 29.622857 0 0 1 0.512 5.412571v437.028572c0 16.164571-13.165714 29.257143-29.330285 29.257143h-0.073143a29.403429 29.403429 0 0 1-29.403429-29.330286V282.843429zM495.908571 903.972571V493.714286L141.604571 290.230857v397.677714L495.908571 904.045714zM191.195429 236.251429l337.188571 191.122285 337.042286-191.122285L528.310857 67.876571 191.195429 236.251429z"
+                />
+            </svg>
+        </a>
+        <div class="right-wing">
+            <a class="link" href="/instruction">Instruction</a>
+
+            <form id="logout" th:action="@{/logout}" method="post">
+                <a class="link" onclick="document.getElementById('logout').submit();return false;">Exit</a>
+            </form>
+
+            <!--          <a class="link" th:action="@{/logout}">Exit</a>-->
+        </div>
+    </header>
+    <div class="wrap-container-middle">
+        <div class="wrap-login100-vertical">
+            <form
+                    method="POST"
+                    id="loginForm"
+                    th:action="@{/subscribe}"
+                    class="login100-form-vertical validate-form"
+            >
+            <span class="login100-form-vertical-title">
+              Create your subscription
+            </span>
+
+                <div
+                        class="wrap-input100 validate-input"
+                        data-validate="Choice is required"
+                >
+                    <select
+                            class="input100"
+                            id="type"
+                            name="type"
+                            placeholder="Subscribe to"
+                    >
+                        <option
+                                th:each="choice : ${choices}"
+                                th:value="${choice}"
+                                th:text="${choice}"
+                        ></option>
+                    </select>
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                    <i class="fa fa-location-arrow" aria-hidden="true"></i>
+                    </span>
+
+                </div>
+
+                <div
+                        class="wrap-input100 validate-input"
+                        data-validate="Password is required"
+                >
+                    <input
+                            class="input100"
+                            type="text"
+                            id="address"
+                            name="address"
+                            placeholder="Address"
+                    />
+                    <span class="focus-input100"></span>
+                    <span class="symbol-input100">
+                <i class="fa fa-user" aria-hidden="true"></i>
+              </span>
+                </div>
+
+                <div class="wrap-input100 validate-input" data-validate="Password is required">
+                    <div th:each="status : ${statuses}">
+                        <div class="cbx-wrapper">
+                            <input class="inp-cbx" name="statuses" th:value="${status}" th:id="${status}" type="checkbox" checked/>
+                            <label class="cbx" th:for="${status}"><span><svg width="12px" height="10px"
+                                                                          viewbox="0 0 12 10"><polyline
+                                    points="1.5 6 4.5 9 10.5 1"></polyline></svg></span><span th:text="${status}"></span></label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="container-login100-form-btn">
+                    <button class="login100-form-btn" type="submit">Subscribe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--===============================================================================================-->
+<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/bootstrap/js/popper.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+<script src="vendor/tilt/tilt.jquery.min.js"></script>
+<script>
+    $(".js-tilt").tilt({
+        scale: 1.1,
+    });
+</script>
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+</body>
+</html>

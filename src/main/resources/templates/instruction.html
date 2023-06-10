@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+
+    <title>Instruction</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!--===============================================================================================-->
+    <link rel="icon" type="image/png" href="images/icons/favicon.ico" />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/bootstrap/css/bootstrap.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/css-hamburgers/hamburgers.min.css"
+    />
+    <!--===============================================================================================-->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="vendor/select2/select2.min.css"
+    />
+    <!--===============================================================================================-->
+    <link rel="stylesheet" type="text/css" href="css/util.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <!--===============================================================================================-->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <div class="background-container">
+      <header class="header-wrapper">
+        <div class="left-wing">
+          <a class="link" href="/subscribe">Subscribe</a>
+
+          <a class="link" href="/subscriptions">Subscriptions</a>
+        </div>
+        <a class="logo" href="/">
+          <svg
+            viewBox="0 0 1024 1024"
+            version="1.1"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M924.086857 282.843429l-362.057143 210.724571v415.378286s227.108571-137.728 238.738286-144.384c11.190857-6.436571 26.331429 0.731429 28.891429 17.554285 0.146286 0.731429 1.462857 4.973714 1.462857 5.705143 1.536 18.212571-0.731429 26.770286-12.580572 33.718857l-273.993143 162.742858c-6.948571 3.510857-16.091429 5.485714-30.72-1.755429-7.168-3.218286-424.301714-255.268571-424.301714-255.268571a24.649143 24.649143 0 0 1-11.702857-20.772572V251.611429c0-2.486857-2.413714-25.526857 13.385143-35.913143L517.558857 2.633143a24.137143 24.137143 0 0 1 21.796572 0l426.276571 213.138286c9.508571 4.827429 17.481143 14.628571 16.749714 23.844571a29.622857 29.622857 0 0 1 0.512 5.412571v437.028572c0 16.164571-13.165714 29.257143-29.330285 29.257143h-0.073143a29.403429 29.403429 0 0 1-29.403429-29.330286V282.843429zM495.908571 903.972571V493.714286L141.604571 290.230857v397.677714L495.908571 904.045714zM191.195429 236.251429l337.188571 191.122285 337.042286-191.122285L528.310857 67.876571 191.195429 236.251429z"
+            />
+          </svg>
+        </a>
+        <div class="right-wing">
+          <a class="link active" href="/instruction">Instruction</a>
+          <form id="logout" th:action="@{/logout}" method="post">
+            <a
+              class="link"
+              onclick="document.getElementById('logout').submit();return false;"
+              >Exit</a
+            >
+          </form>
+        </div>
+      </header>
+      <div class="wrap-container">
+        <div class="instruction-page-wrapper">
+          <div class="instruction-wrapper">
+            <div class="instruction-text-header">
+              Blockchain Analysis System
+            </div>
+            <div class="instruction-text-header">Instruction</div>
+            <div class="instruction-text">
+              <div class="instruction-text__block">
+                <div class="instruction-text__title">
+                  1. Creating subscriptions and filters.
+                </div>
+                <div class="instruction-text__text">
+                  A subscription involves tracking or monitoring transactions
+                  for an address that you specify.
+                </div>
+                <div class="instruction-text__text">
+                  To create a subscription, click on "Subscribe" at the top. You
+                  will be taken to the subscription creation page where you will
+                  need to fill in some information:
+                </div>
+                <div class="instruction-text__text">
+                  * Transaction Direction: transactions sent or received by the
+                  address.
+                </div>
+                <div class="instruction-text__text">
+                  * The address itself, which will be added to the monitoring
+                  service, and information about whose transactions you will
+                  receive.
+                </div>
+                <div class="instruction-text__text">
+                  * Fields CONFIRMED, UNCONFIRMED, FAILED: these are the
+                  statuses of the transactions that you want to receive. Note:
+                  leaving all fields empty is equivalent to selecting all of
+                  them.
+                </div>
+                <div class="instruction-text__text">
+                  Click the "Subscribe" button. You will be taken to the
+                  additional filters page for your subscription. You don't need
+                  to fill in the fields if you want to receive all transactions
+                  for the specified direction and address. You can specify
+                  filters:
+                </div>
+                <div class="instruction-text__text">
+                  * Sender and receiver address fields (useful if you want to
+                  track transactions between two addresses).
+                </div>
+                <div class="instruction-text__text">
+                  * Minimum and maximum amount of currency transferred in ETH.
+                  Note: this specifically refers to currency transfer from one
+                  address to another. Internal transfers, such as calling a
+                  smart contract to exchange tokens, and subsequent recipient
+                  actions are not tracked.
+                </div>
+                <div class="instruction-text__text">
+                  * Time interval of the transactions you are interested in.
+                  Note: the date and time are specified in UTC+0 without the
+                  option for time zones.
+                </div>
+                <div class="instruction-text__text">
+                  Click "Subscribe" to complete the subscription creation.
+                </div>
+              </div>
+              <div class="instruction-text__block">
+                <div class="instruction-text__title">2. Subscription list</div>
+                <div class="instruction-text__text">
+                  The "Subscriptions" page lists all your registered
+                  subscriptions in a table format. The table columns include:
+                </div>
+                <div class="instruction-text__text">
+                  * Type: subscription type. It characterizes the types of
+                  subscriptions you will receive: sent (FROM_ADDRESS) or
+                  received (TO_ADDRESS).
+                </div>
+                <div class="instruction-text__text">
+                  * Address: the address you have subscribed to. By clicking on
+                  it, you will be taken to the page of received transactions.
+                  Note: addresses specified when filling out the filter page are
+                  not considered.
+                </div>
+                <div class="instruction-text__text">
+                  * Statuses: the statuses of transactions you are tracking.
+                </div>
+                <div class="instruction-text__text">
+                  * With Filter: whether any filters are applied to the
+                  subscription.
+                </div>
+                <div class="instruction-text__text">
+                  * Charts: clicking on this cell will take you to the charts
+                  page for your specific subscription.
+                </div>
+                <div class="instruction-text__text">
+                  * Delete: clicking on this cell will delete the subscription
+                  and all stored information about it. This action is
+                  irreversible.
+                </div>
+                <div class="instruction-text__text">
+                  Note: If another user has a similar subscription to yours with
+                  similar filters, the information will be retained.
+                </div>
+              </div>
+              <div class="instruction-text__block">
+                <div class="instruction-text__title">3. Transactions</div>
+                <div class="instruction-text__text">
+                  The transaction table is not self-updating. To receive new
+                  information, refresh the page.
+                </div>
+                <div class="instruction-text__text">
+                  The top menu contains filters for all transactions in the
+                  table:
+                </div>
+                <div class="instruction-text__text">
+                  * Using "Table fields" you can disable or enable the display
+                  of columns in it.
+                </div>
+                <div class="instruction-text__text">
+                  * Using "Filters" you can select transactions by the minimum
+                  and maximum amount of ETH, by the date and time of the
+                  transaction.
+                </div>
+                <div class="instruction-text__text">
+                  * Using "Order By" you can sort transactions in descending
+                  (desc) or ascending (asc) order by a parameter you specify.
+                </div>
+              </div>
+              <div class="instruction-text__block">
+                <div class="instruction-text__title">4. Charts</div>
+                <div class="instruction-text__text">
+                  On this page, you can find charts of transferred currency in
+                  ETH per block in the network, and gas prices also for each
+                  block.
+                </div>
+                <div class="instruction-text__text">
+                  The information is automatically compressed, so the main
+                  purpose of the charts is to see large spikes or drops in
+                  values over time.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/main.js"></script>
+  </body>
+</html>
