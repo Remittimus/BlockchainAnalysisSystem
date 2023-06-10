@@ -4,10 +4,11 @@
 * Spring Boot (web, security, data)  
 * PostgreSql (via hibernate) for user and subscriptions details
 * Clickhouse (jdbc) for big data and olap requests 
-* [Eventeum](https://github.com/eventeum)  
+* Docker
+* [Eventeum](https://github.com/eventeum) with a modified technical part  
 
 ## About the project
-This is a service for tracking transactions and displaying statistics on them. All you need is access to an Ethereum node and an address whose outgoing or incoming transactions you are interested in.  
+This is a full-fledged website with the ability to register, subscribe and track transactions with the display of statistics. All you need is access to an Ethereum node and an address whose outgoing or incoming transactions you are interested in.  
 
 ![image](https://github.com/Remittimus/BlockchainAnalysisSystem/assets/56563715/0229ccb8-5fee-440f-b45f-3485e251766b)  
 
