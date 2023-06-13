@@ -2,9 +2,10 @@
 ### Tech stack  
 * Java 17
 * Spring Boot (web, security, data)  
-* PostgreSql (via hibernate) for user and subscriptions details
+* PostgreSql (via hibernate) for users and subscriptions details
 * Clickhouse (jdbc) for big data and olap requests 
-* Docker
+* Docker  
+* Kafka
 * [Eventeum](https://github.com/eventeum) with a modified technical part  
 
 ## About the project  
