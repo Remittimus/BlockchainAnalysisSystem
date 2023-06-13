@@ -15,7 +15,7 @@ services:
     environment:
       POSTGRES_USER: postgres_user
       POSTGRES_PASS: password
-      ETHEREUM_NODE_URL:
+      ETHEREUM_NODE_URL: https://mainnet.infura.io/v3/d1e5096b9437472ead7f06862f05718f
       ZOOKEEPER_ADDRESS: zookeeper:2181
       KAFKA_ADDRESSES: kafka:19092
 
@@ -32,12 +32,14 @@ services:
       - kafka
       - eventeum
     environment:
-      CLICKHOUSE_JDBC: jdbc:clickhouse://host.docker.internal:8123?compress=0
-      POSTGRES_JDBC: jdbc:postgresql://host.docker.internal/analysis_platform
+      #CLICKHOUSE_JDBC: jdbc:clickhouse://host.docker.internal:8123?compress=0
+      #POSTGRES_JDBC: jdbc:postgresql://host.docker.internal/analysis_platform
+      CLICKHOUSE_JDBC: jdbc:clickhouse://clickhouse:8123?compress=0
+      POSTGRES_JDBC: jdbc:postgresql://postgres/analysis_platform
       POSTGRES_USER: postgres_user
       POSTGRES_PASS: password
       KAFKA_ADDRESSES: kafka:19092
-      EVENTEUM_ADDRESS: http://host.docker.internal:8060/
+      EVENTEUM_ADDRESS: http://eventeum:8060/
 
 
   postgres:
