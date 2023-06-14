@@ -15,7 +15,7 @@ services:
     environment:
       POSTGRES_USER: postgres_user
       POSTGRES_PASS: password
-      ETHEREUM_NODE_URL: https://mainnet.infura.io/v3/d1e5096b9437472ead7f06862f05718f
+      ETHEREUM_NODE_URL: 
       ZOOKEEPER_ADDRESS: zookeeper:2181
       KAFKA_ADDRESSES: kafka:19092
 
