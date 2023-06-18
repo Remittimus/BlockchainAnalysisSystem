@@ -24,7 +24,7 @@ public class OnlineFilter implements FilterInterface{
 
    //This function don't check orderBy and orderType values
    @Override
-   public boolean isNull(){
+   public boolean isEmpty(){
 
       return (this.minValue == null && this.maxValue == null && this.startDate == null && this.endDate == null );
    }

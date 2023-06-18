@@ -95,7 +95,6 @@
               </thead>
               <tbody>
                 <tr th:each="t : ${subscriptions}">
-                  <!--        <td th:text="${t.getAddress()}"></td>-->
                   <td th:text="${t.getType()}"></td>
                   <td class="link">
                     <a
@@ -104,7 +103,7 @@
                     ></a>
                   </td>
                   <td th:text="${t.getStatuses().toString()}"></td>
-                  <td th:text="${ not t.getFilter().isNull()}"></td>
+                  <td th:text="${ not t.getFilter().isEmpty()}"></td>
                   <td class="link">
                     <a th:href="@{/Charts(id=${t.getId()})}">Charts</a>
                   </td>

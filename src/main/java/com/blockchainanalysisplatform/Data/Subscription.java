@@ -9,7 +9,7 @@ import lombok.ToString;
 import java.util.*;
 
 
-//TODO: enum type {trans,form,to}
+
 @Data
 @Entity
 @Table(name = "Subscriptions")

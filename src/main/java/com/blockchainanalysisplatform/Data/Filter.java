@@ -36,7 +36,7 @@ public class Filter implements FilterInterface {
     }
 
     @Override
-    public boolean isNull() {
+    public boolean isEmpty() {
 
         return (this.minValue == null && this.maxValue == null && this.startDate == null && this.endDate == null && this.fromAddress.isEmpty() && this.toAddress.isEmpty());
     }

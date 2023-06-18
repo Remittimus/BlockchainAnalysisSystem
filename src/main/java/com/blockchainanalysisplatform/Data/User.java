@@ -28,7 +28,7 @@ public class User implements UserDetails, Serializable {
     private static final long serialVersionUID = 1993558129899513236L;
 
     @ToString.Exclude
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER) //TODO: cascade mb?
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(
             name = "User_Subscription",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -75,7 +75,7 @@ public class User implements UserDetails, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.asList(new SimpleGrantedAuthority("ROLE_USER"));
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

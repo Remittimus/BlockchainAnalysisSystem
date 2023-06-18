@@ -1,6 +1,14 @@
 package com.blockchainanalysisplatform.Data;
 
+import java.time.LocalDateTime;
+
 public interface FilterInterface {
 
-    public boolean isNull(); //TODO: rename to empty
+     boolean isEmpty();
+
+     Double getMaxValue();
+     Double getMinValue();
+
+     LocalDateTime getStartDate();
+     LocalDateTime getEndDate();
 }

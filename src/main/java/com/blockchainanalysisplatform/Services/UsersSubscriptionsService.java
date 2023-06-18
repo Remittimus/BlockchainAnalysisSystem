@@ -56,7 +56,7 @@ public class UsersSubscriptionsService { //TODO:refactor to interface
         //User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             //Optional<User>  optionalUser= uRepo.findById(user.getId());
             User userDb = uRepo.findById(user.getId()).get();
-            if(!filter.isNull()){
+            if(!filter.isEmpty()){
                 subscription.setId(Hashing.sha256()
                         .hashString(subscription.getTopicId()+filter, StandardCharsets.UTF_8)
                         .toString());
