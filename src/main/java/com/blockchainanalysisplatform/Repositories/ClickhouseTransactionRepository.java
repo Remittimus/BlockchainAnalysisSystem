@@ -13,7 +13,7 @@ public interface ClickhouseTransactionRepository  {
 
     Iterable<ClickhouseTransaction> findByIdWhereFilter(String subscriptionId,OnlineFilter filter);
 
-    ChartData findDataForChartsById(String subscriptionId); //TODO: mb to iterable
+    ChartData findDataForChartsById(String subscriptionId);
 
     void createTablesAfterSubscription( Subscription subscription, Filter filter);
 

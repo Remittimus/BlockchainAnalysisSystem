@@ -19,7 +19,8 @@ public class Subscription {
 
     @ToString.Exclude
     @ManyToMany(mappedBy = "subscriptions")
-    private List<User> users = new LinkedList<>();
+    private Set<User> users = new HashSet<>();
+
 
     @Embedded
     Filter filter;

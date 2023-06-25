@@ -41,7 +41,7 @@ public class RegisterSubscriptionController {
     @PostMapping
     public String postController(Subscription subscription){
 
-        if(subscription.getAddress().isEmpty()){
+        if(subscription.getAddress().isEmpty()){ //TODO:add validation here
             return "redirect:/subscribe?error=Address_is_empty";
         }
         else if(subscription.getStatuses()==null){

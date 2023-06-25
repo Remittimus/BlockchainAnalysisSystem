@@ -15,7 +15,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UsersSubscriptionsService { //TODO:refactor to interface
+public class UsersSubscriptionsService implements UsersSubscriptionsInterface{
 
     private UserRepository uRepo;
     private SubscriptionRepository sRepo;
@@ -23,7 +23,6 @@ public class UsersSubscriptionsService { //TODO:refactor to interface
 
     private EventeumService unsubscribeEventeum;
 
-    //TODO: mb unique in subscription fields and trycatch
 
     public void deleteSubscription(String subscriptionId,Long userId){
         User userDb = uRepo.findById(userId).get();

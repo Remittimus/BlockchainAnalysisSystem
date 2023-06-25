@@ -29,7 +29,7 @@ class JDBCClickhouseTransactionRepositoryIntegrationTest {
 
 
     @Test
-    void testCreateAndDeleteTables_ShouldCreateTablesForSubscription() {
+    void testCreateAndDeleteTables_ShouldCreateAndDeleteTablesForSubscription() {
         // Arrange
         if (!repository.getDbName().equals("Tests") ) {
             throw new RuntimeException("Error, clickhouse is not configure for integration tests");
@@ -73,10 +73,7 @@ class JDBCClickhouseTransactionRepositoryIntegrationTest {
             System.out.println(e.getMessage());
         }
 
-        // Assert
-        // Выполните проверку, что необходимые таблицы были успешно созданы в базе данных
+
     }
 
-
-    // Дополнительные тесты для других методов репозитория
 }

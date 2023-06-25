@@ -13,7 +13,7 @@ public class HomeController {
     @GetMapping("/login")
     @ModelAttribute
     public String home(@Param("error") String error, Model model) {
-        model.addAttribute("error",error); //TODO:fix later
+        model.addAttribute("error",error); //TODO:add validation here
 
         return "login";
     }

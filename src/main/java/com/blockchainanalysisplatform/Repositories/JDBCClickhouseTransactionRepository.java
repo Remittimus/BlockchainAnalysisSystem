@@ -17,7 +17,7 @@ import java.util.List;
 public class JDBCClickhouseTransactionRepository implements ClickhouseTransactionRepository {
 
     private final Connection DBConnection;
-    private ClickhouseStatementGeneratorService generatorService;
+    private final ClickhouseStatementGeneratorService generatorService;
     private final String dbName;
     //private final String dbName ="Tests";
 
@@ -161,6 +161,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
     @SneakyThrows
     public void createAnalysisTablesAfterSubscription( Subscription subscription){
 
+        //TODO: Summing to Aggregating
         Statement s = DBConnection.createStatement();
         s.execute(
                 "CREATE TABLE IF NOT EXISTS " + dbName + ".sum_" + subscription.getId() + "\n" +

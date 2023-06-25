@@ -34,7 +34,8 @@ public class User implements UserDetails, Serializable {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "subscription_id")
     )
-    private List<Subscription> subscriptions = new LinkedList<>();
+    private Set<Subscription> subscriptions = new HashSet<>();
+
 
 
     @Id

@@ -350,7 +350,7 @@
                         35,
                         74,
                         117
-                      ); /* Цвет фона //TODO: REMOVE HARDCODE */
+                      );
                       color: #fff; /* Цвет текста */
                       backdrop-filter: blur(10px);
                     }
@@ -434,8 +434,6 @@
           <!--              </script>-->
 
           <div class="table-wrapper">
-            <!-- TODO: смени collection на что-то другое -->
-            <!--            <table th:if="${transactions.isEmpty()}" class="table">-->
             <table th:if="${not transactions.isEmpty()}" class="table">
               <thead>
                 <tr>
@@ -545,7 +543,6 @@
                 <!-- data for local testing -->
               </tbody>
             </table>
-            <!-- TODO: смени collection на что-то другое и раскомменть -->
             <div th:if="${ transactions.isEmpty()}" class="empty-text">
               There are no transactions at this time
             </div>
