@@ -1,9 +1,8 @@
 package com.blockchainanalysisplatform.Data;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
-import lombok.NonNull;
 import lombok.ToString;
 
 import java.util.*;
@@ -28,15 +27,15 @@ public class Subscription {
     @Id
     private String id; //id after encoding with filters
 
-    @NonNull
+    @NotEmpty
     private String type; //from to hash
-    @NotBlank
+    @NotEmpty
     private String address; //address transaction or wallet
     private String nodeName; //url to eth-node
     private String topicId; //topic in kafka, response in eventeum
 
+    @NotEmpty
     @ElementCollection
-//    @CollectionCo(name = "statuses")
     @Enumerated(EnumType.STRING)
     private List<SubscriptionStatuses> statuses;
 

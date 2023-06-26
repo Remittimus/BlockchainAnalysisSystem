@@ -19,7 +19,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class FilterController {
 
 
-    private WebClient webClient;
     private  UsersSubscriptionsService updateService;
     private EventeumService eventeumService;
     @GetMapping
@@ -39,14 +38,11 @@ public class FilterController {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         try {
-            eventeumService.subscribe(subscription); //TODO:error output here
+            eventeumService.subscribe(subscription); //TODO:validation and error output
         } catch (Exception e){
             System.out.println(e.getMessage());
             return "redirect:/subscriptions";
         }
-
-
-
 
             subscription.setFilter(filter);
             session.setComplete();

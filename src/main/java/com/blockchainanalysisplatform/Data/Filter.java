@@ -3,6 +3,7 @@ package com.blockchainanalysisplatform.Data;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+
 import java.time.LocalDateTime;
 
 
@@ -14,19 +15,15 @@ import java.time.LocalDateTime;
 public class Filter implements FilterInterface {
 
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
+    private Double minValue;
+    private Double maxValue;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private String fromAddress;
+    private String toAddress;
 
 
-    private   Double minValue, maxValue;
-    private  LocalDateTime startDate, endDate;
-    private  String fromAddress, toAddress;
-
-//    @ToString.Exclude
-//    @OneToOne()
-//    private Subscription subscription;
-     public Filter() {
+    public Filter() {
         this.minValue = null;
         this.maxValue = null;
         this.startDate = null;

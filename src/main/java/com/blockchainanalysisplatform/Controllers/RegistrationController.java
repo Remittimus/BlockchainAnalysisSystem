@@ -1,17 +1,19 @@
 package com.blockchainanalysisplatform.Controllers;
 
 
+
 import com.blockchainanalysisplatform.Data.User;
 import com.blockchainanalysisplatform.RepositoriesJPA.UserRepository;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
 
 
 
@@ -30,17 +32,14 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String processRegistration(User user) {
+    public String processRegistration(@Valid @ModelAttribute User user, BindingResult bindingResult) {
 
-
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        //TODO: add validation here
-        try {
-            userRepo.save(user);
-        }catch(Exception e){
-
+        if (bindingResult.hasErrors() || userRepo.findByEmailOrUsername(user.getEmail(),user.getUsername())!=null ) {
             return "redirect:/registration?error";
         }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        userRepo.save(user);
         return "redirect:/login";
     }
 }

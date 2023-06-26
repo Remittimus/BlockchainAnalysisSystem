@@ -4,6 +4,7 @@ package com.blockchainanalysisplatform.Data;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -42,15 +43,15 @@ public class User implements UserDetails, Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
+    @NotEmpty
     @Column(nullable = false, unique = true)
     private String username;
 
-    @NotBlank
+    @NotEmpty
     @Column(nullable = false)
     private String password;
 
-    @NotBlank
+    @NotEmpty
     @Email
     @Column(nullable = false, unique = true)
     private String email;
