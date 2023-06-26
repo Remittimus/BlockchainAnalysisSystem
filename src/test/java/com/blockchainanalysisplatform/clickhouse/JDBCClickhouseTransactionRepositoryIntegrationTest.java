@@ -1,10 +1,11 @@
 package com.blockchainanalysisplatform.clickhouse;
 
-import com.blockchainanalysisplatform.Configs.ConfigClickhouse;
+import com.blockchainanalysisplatform.Configs.configDatabases;
 import com.blockchainanalysisplatform.Data.Filter;
 import com.blockchainanalysisplatform.Data.Subscription;
 import com.blockchainanalysisplatform.Repositories.JDBCClickhouseTransactionRepository;
 import com.blockchainanalysisplatform.Services.ClickhouseStatementGeneratorService;
+import com.clickhouse.jdbc.ClickHouseDataSource;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,14 +18,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Disabled
 @SpringBootTest
-@ContextConfiguration(classes = {ConfigClickhouse.class,JDBCClickhouseTransactionRepository.class, ClickhouseStatementGeneratorService.class})
+@ContextConfiguration(classes = {configDatabases.class,JDBCClickhouseTransactionRepository.class, ClickhouseStatementGeneratorService.class})
 class JDBCClickhouseTransactionRepositoryIntegrationTest {
 
     @Autowired
     private JDBCClickhouseTransactionRepository repository;
 
     @Autowired
-    private Connection connection;
+    private ClickHouseDataSource clickHouseDataSource;
+    //private Connection connection;
 
 
 
@@ -40,11 +42,11 @@ class JDBCClickhouseTransactionRepositoryIntegrationTest {
         Filter filter = new Filter();
 
         // Act
-
-        try {
+        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+        //try {
             repository.createTablesAfterSubscription(subscription, filter);
             repository.createAnalysisTablesAfterSubscription(subscription);
-            Statement s = connection.createStatement();
+            //Statement s = connection.createStatement();
             int count = 0;
             ResultSet rs = s.executeQuery(
                     "SELECT database, name FROM system.tables\n" +

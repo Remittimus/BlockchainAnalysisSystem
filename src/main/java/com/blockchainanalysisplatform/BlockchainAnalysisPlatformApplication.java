@@ -1,5 +1,6 @@
 package com.blockchainanalysisplatform;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
