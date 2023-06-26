@@ -80,7 +80,7 @@
                 </div>
                 <script th:inline="javascript">
                     /*<![CDATA[*/
-                    var dataValues = [[${dataForCharts.getValues()}]]; // Здесь используется Thymeleaf для передачи данных из модели
+                    var dataValues = [[${dataForCharts.getValues()}]];
                     var dataGasPrice = [[${dataForCharts.getGasPrices()}]];
                     var labels = [[${dataForCharts.getDates()}]];
                     var ctx = document.getElementById('EthChart').getContext('2d');

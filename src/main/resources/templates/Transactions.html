@@ -402,36 +402,7 @@
               </div>
             </form>
           </div>
-          <!--              <script>-->
-          <!--                // Получаем ссылку на форму-->
-          <!--                var form = document.getElementById('loginForm');-->
 
-          <!--                // Добавляем обработчик события отправки формы-->
-          <!--                form.addEventListener('submit', function(event) {-->
-          <!--                  event.preventDefault(); // Предотвращаем стандартное поведение формы (перезагрузку страницы)-->
-
-          <!--                  // Получаем данные из формы-->
-          <!--                  var formData = new FormData(form);-->
-
-          <!--                  // Отправляем запрос на сервер-->
-          <!--                  var xhr = new XMLHttpRequest();-->
-          <!--                  xhr.open('POST', form.action, true);-->
-          <!--                  xhr.onload = function() {-->
-          <!--                    if (xhr.status === 200) {-->
-          <!--                      // Обработка успешного ответа от сервера-->
-          <!--                      console.log(xhr.responseText);-->
-          <!--                    } else {-->
-          <!--                      // Обработка ошибки-->
-          <!--                      console.error(xhr.responseText);-->
-          <!--                    }-->
-          <!--                  };-->
-          <!--                  xhr.onerror = function() {-->
-          <!--                    // Обработка ошибки-->
-          <!--                    console.error(xhr.responseText);-->
-          <!--                  };-->
-          <!--                  xhr.send(formData);-->
-          <!--                });-->
-          <!--              </script>-->
 
           <div class="table-wrapper">
             <table th:if="${not transactions.isEmpty()}" class="table">
