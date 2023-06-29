@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Disabled
 @SpringBootTest
 @ContextConfiguration(classes = {configDatabases.class,JDBCClickhouseTransactionRepository.class, ClickhouseStatementGeneratorService.class})
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class JDBCClickhouseTransactionRepositoryIntegrationTest {
 
     @Autowired
@@ -26,24 +27,26 @@ class JDBCClickhouseTransactionRepositoryIntegrationTest {
 
     @Autowired
     private ClickHouseDataSource clickHouseDataSource;
-    //private Connection connection;
+
+
+    @BeforeAll
+    public void setUp() {
+        assertEquals("Tests", repository.getDbName(),"Clickhouse must be set up for testing. The \"Tests\" database is required.");
+    }
 
 
 
     @Test
     void testCreateAndDeleteTables_ShouldCreateAndDeleteTablesForSubscription() {
-        // Arrange
-        if (!repository.getDbName().equals("Tests") ) {
-            throw new RuntimeException("Error, clickhouse is not configure for integration tests");
-        }
+
         Subscription subscription = new Subscription();
         subscription.setId("12345");
         subscription.setTopicId("12345");
         Filter filter = new Filter();
 
-        // Act
+
         try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
-        //try {
+
             repository.createTablesAfterSubscription(subscription, filter);
             repository.createAnalysisTablesAfterSubscription(subscription);
             //Statement s = connection.createStatement();
