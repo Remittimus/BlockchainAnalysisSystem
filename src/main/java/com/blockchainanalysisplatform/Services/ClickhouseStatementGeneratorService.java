@@ -26,7 +26,7 @@ public class ClickhouseStatementGeneratorService {
                 "       JSONExtractString(details, 'from')             as from,\n" +
                 "       JSONExtractString(details, 'to')               as to,\n" +
                 "       toFloat64(bitAnd(reinterpretAsInt64(reverse(unhex(substring(JSONExtractString(details, 'value'), 3)))),\n" +
-                "                        toUInt64('9223372036854775807'))) / 1000000000000000000\n" +
+                "                        toUInt64('9223372036854775807'))) / 1000000000000000000\n" + //TODO: find a prettier solution for converting a number of 18 digits
                 "                                                           as value,\n" +
                 "       JSONExtractString(details, 'nodeName')         as nodeName,\n" +
                 "       JSONExtractString(details, 'input')            as input,\n" +
