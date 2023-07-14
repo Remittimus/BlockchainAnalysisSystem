@@ -187,7 +187,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
     @SneakyThrows
     public void createAnalysisTablesAfterSubscription( Subscription subscription){
 
-        //TODO: Summing to Aggregating
+
         try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
             s.execute(
                     "CREATE TABLE IF NOT EXISTS " + dbName + ".sum_" + subscription.getId() + "\n" +
@@ -196,7 +196,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
                             "    blockNumber String,\n" +
                             "    value Float64,\n" +
                             "    gasPrice Float64\n" +
-                            ") ENGINE = SummingMergeTree()\n" +
+                            ") ENGINE = AggregatingMergeTree()\n" +
                             "order by timestamp;"
             );
 
@@ -206,11 +206,13 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
                             "SELECT " +
                             "timestamp as timestamp,\n" +
                             "blockNumber as blockNumber,\n" +
-                            "value as value,\n" +
-                            "gasPrice as gasPrice\n" +
-                            "FROM " + dbName + ".id_" + subscription.getId() + ";\n"
+                            "sum(value) as value,\n" +
+                            "avg(gasPrice) as gasPrice\n" +
+                            "FROM " + dbName + ".id_" + subscription.getId() + "\n" +
+                            "GROUP BY timestamp, blockNumber;"
 
             );
+
         } catch (SQLException e){
             System.out.println(e.getMessage());
         }
