@@ -1,6 +1,6 @@
 ## *This is the alpha version of the project.*
 ### Tech stack  
-* Java 17
+* Java Amazon Corretto 17
 * Spring Boot (web, security, data)  
 * PostgreSql (via hibernate) for users and subscriptions details
 * Clickhouse (jdbc) for big data and olap requests 
