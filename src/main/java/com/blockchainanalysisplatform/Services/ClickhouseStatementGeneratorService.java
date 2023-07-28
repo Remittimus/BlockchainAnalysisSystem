@@ -7,6 +7,10 @@ import com.blockchainanalysisplatform.Data.Subscription;
 import org.springframework.stereotype.Service;
 
 import java.time.ZoneOffset;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.StringJoiner;
+import java.util.function.Supplier;
 
 @Service
 public class ClickhouseStatementGeneratorService {
@@ -44,10 +48,9 @@ public class ClickhouseStatementGeneratorService {
                 "FROM " + dbName + ".kafka_" + subscription.getTopicId()+")"
         );
         if(!filter.isEmpty()){
-            addWheretoStatement(result,filter);
-            if(!filter.getToAddress().isEmpty()) result.append("(to == '").append(filter.getToAddress()).append("') AND");
-            if(!filter.getFromAddress().isEmpty()) result.append("(from == '").append(filter.getFromAddress()).append("') AND");
-            result.delete(result.lastIndexOf(" AND"),result.length());
+            result.append(getWhereStatement(filter));
+            if(!filter.getToAddress().isEmpty()) result.append(" AND (to == '").append(filter.getToAddress()).append("')");
+            if(!filter.getFromAddress().isEmpty()) result.append(" AND (from == '").append(filter.getFromAddress()).append("')");
             result.append(";");
         }
 
@@ -61,7 +64,7 @@ public class ClickhouseStatementGeneratorService {
         );
 
         if (!filter.isEmpty()) {
-            addWheretoStatement(result,filter);
+            result.append(getWhereStatement(filter));
         }
         result.append("\n");
         result.append("ORDER BY ").append(filter.getOrderBy()).append(" ").append(filter.getOrderType());
@@ -82,4 +85,30 @@ public class ClickhouseStatementGeneratorService {
 
 
     }
+
+    private String getWhereStatement(FilterInterface filter){
+        Map<Supplier<Object>, String> conditions = new LinkedHashMap<>();
+        conditions.put(filter::getMaxValue, "(value < %s)");
+        conditions.put(filter::getMinValue, "(value > %s)");
+        conditions.put(() -> {
+            if (filter.getStartDate() != null) return filter.getStartDate().toEpochSecond(ZoneOffset.UTC);
+            else return null;
+        }, "(timestamp >= '%s')");
+        conditions.put(() -> {
+            if (filter.getEndDate() != null) return filter.getEndDate().toEpochSecond(ZoneOffset.UTC);
+            else return null;
+        }, "(timestamp <= '%s')");
+
+        StringJoiner whereStatement = new StringJoiner(" AND ", "WHERE ", "");
+        for (Map.Entry<Supplier<Object>, String> condition : conditions.entrySet()) {
+            Object value = condition.getKey().get();
+            if (value != null) {
+                whereStatement.add(String.format(condition.getValue(), value.toString()));
+            }
+        }
+
+        return (whereStatement.length() > 6) ? whereStatement.toString() : ""; // If no conditions added, return empty string
+    }
+
+
 }
