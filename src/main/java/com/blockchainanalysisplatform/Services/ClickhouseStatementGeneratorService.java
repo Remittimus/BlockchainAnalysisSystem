@@ -70,7 +70,7 @@ public class ClickhouseStatementGeneratorService {
         return result.toString();
     }
 
-    private void addWheretoStatement(StringBuilder result, FilterInterface filter){
+    private void addWheretoStatement(StringBuilder result, FilterInterface filter){ //TODO mb map without fields
         result.append("WHERE ");
         if (filter.getMaxValue() != null) result.append("(value < ").append(filter.getMaxValue()).append(") AND");
         if (filter.getMinValue() != null) result.append("(value > ").append(filter.getMinValue()).append(") AND");

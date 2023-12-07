@@ -7,6 +7,7 @@ import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,17 +27,18 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
 
     @Autowired
     public JDBCClickhouseTransactionRepository(
-                                               ClickHouseDataSource clickHouseDataSource,
-                                               ClickhouseStatementGeneratorService generatorService,
-                                               @Value("${kafkaAddresses}") String kafkaAddresses) {
+            ClickHouseDataSource clickHouseDataSource,
+            ClickhouseStatementGeneratorService generatorService,
+            @Value("${kafkaAddresses}") String kafkaAddresses) {
         this.clickHouseDataSource = clickHouseDataSource;
 
         this.generatorService = generatorService;
-        this.dbName ="Analys";
+        this.dbName = "Analys";
         //this.dbName="Tests";
         this.kafkaAddresses = kafkaAddresses;
     }
-    public String getDbName(){
+
+    public String getDbName() {
         return dbName;
     }
 
@@ -47,7 +49,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
 
 
         ChartData data = new ChartData();
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
 
             ResultSet results = s.executeQuery(
                     "SELECT timestamp, value, gasPrice FROM " + dbName + ".sum_" + subscriptionId +
@@ -57,7 +59,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
                 data.getValues().add((Double) results.getObject(2));
                 data.getGasPrices().add((Double) results.getObject(3));
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return data;
@@ -65,10 +67,10 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
 
 
     @SneakyThrows
-    public Iterable<ClickhouseTransaction> findByIdWhereFilter(String subscriptionId,OnlineFilter filter){
+    public Iterable<ClickhouseTransaction> findByIdWhereFilter(String subscriptionId, OnlineFilter filter) {
         List<ClickhouseTransaction> results = new ArrayList<>();
 
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
 
             ResultSet rs = s.executeQuery(
                     generatorService.generateSelectStatementWithFilterById(subscriptionId, filter, dbName)
@@ -86,7 +88,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
     public Iterable<ClickhouseTransaction> findAllById(String subscriptionId) {
         List<ClickhouseTransaction> results = new ArrayList<>();
 
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
 
             ResultSet rs = s.executeQuery(
                     "SELECT * FROM " + dbName + ".id_" + subscriptionId
@@ -95,54 +97,55 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
                 results.add(new ClickhouseTransaction(rs)
                 );
             }
-        }catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return results;
     }
 
     @SneakyThrows
-    public void deleteKafkaMaterialViewById(String id){
+    public void deleteKafkaMaterialViewById(String id) {
 
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
             s.execute(
                     "drop table IF EXISTS " + dbName + ".kafka_" + id + "_mv;"
             );
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
 
-    public void deleteTableById(String id){
+    public void deleteTableById(String id) {
 
 
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
-        s.execute(
-                "drop table IF EXISTS "+dbName+".id_"+id+";"
-        );} catch (SQLException e){
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
+            s.execute(
+                    "drop table IF EXISTS " + dbName + ".id_" + id + ";"
+            );
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
     @SneakyThrows
-    public void deleteKafkaById(String topicId){
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+    public void deleteKafkaById(String topicId) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
             s.execute(
                     "drop table IF EXISTS " + dbName + ".kafka_" + topicId + ";"
             );
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-
 
 
     @Override
     @SneakyThrows
-    public void createTablesAfterSubscription( Subscription subscription, Filter filter) {
+    public void createTablesAfterSubscription(Subscription subscription, Filter filter) {
 
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
-        //try(Statement s = DBConnection.createStatement()) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
+            //try(Statement s = DBConnection.createStatement()) {
             s.execute("CREATE DATABASE IF NOT EXISTS " + dbName + ";");
             s.execute("CREATE TABLE IF NOT EXISTS " + dbName + ".kafka_" + subscription.getTopicId() + "(\n" +
                     "    id      String,\n" +
@@ -180,15 +183,16 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
                             "      ORDER BY id;"
             );
             s.execute(generatorService.generateStatementForMaterialViewWithFilter(subscription, filter, dbName));
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
+
     @SneakyThrows
-    public void createAnalysisTablesAfterSubscription( Subscription subscription){
+    public void createAnalysisTablesAfterSubscription(Subscription subscription) {
 
 
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
             s.execute(
                     "CREATE TABLE IF NOT EXISTS " + dbName + ".sum_" + subscription.getId() + "\n" +
                             "(\n" +
@@ -213,35 +217,37 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
 
             );
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
     @SneakyThrows
-    public void deleteSumTableById(String id){
+    public void deleteSumTableById(String id) {
 
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
             s.execute(
                     "drop table IF EXISTS " + dbName + ".sum_" + id + ";"
             );
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    };
+    }
+
+    ;
 
     @SneakyThrows
-    public void deleteTableMaterialViewById(String id){
-        try(Statement s = clickHouseDataSource.getConnection().createStatement()) {
+    public void deleteTableMaterialViewById(String id) {
+        try (Statement s = clickHouseDataSource.getConnection().createStatement()) {
             s.execute(
                     "drop table IF EXISTS " + dbName + ".id_" + id + "_mv;"
             );
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-    };
+    }
 
-
+    ;
 
 
 }

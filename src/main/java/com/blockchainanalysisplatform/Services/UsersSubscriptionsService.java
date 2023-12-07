@@ -20,11 +20,12 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface{
     private UserRepository uRepo;
     private SubscriptionRepository sRepo;
     private JDBCClickhouseTransactionRepository clickRepo;
-
     private EventeumService unsubscribeEventeum;
 
 
     public void deleteSubscription(String subscriptionId,Long userId){
+
+
         User userDb = uRepo.findById(userId).get();
 
         Optional<Subscription> optionalSubscription = sRepo.findById(subscriptionId);
@@ -33,6 +34,7 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface{
 
             userDb.removeSubscription(existingSubscription);
             uRepo.save(userDb);
+
             if(existingSubscription.getUsers().isEmpty()){ //if after user deleting list of users is empty
                 sRepo.deleteById(existingSubscription.getId());
                 clickRepo.deleteKafkaMaterialViewById(existingSubscription.getId());
@@ -50,6 +52,7 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface{
 
         }
     }
+
     public void updatingUsersAndSubscriptions(Subscription subscription, User user, Filter filter){
 
         //User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();

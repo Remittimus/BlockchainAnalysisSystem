@@ -21,9 +21,6 @@ public class RegisterSubscriptionController {
 
 
 
-
-
-
     @ModelAttribute
     public void addTransactionsToModel(Model model){
 
