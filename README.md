@@ -1,6 +1,6 @@
 ## *This is the alpha version of the project.*
 ### Tech stack  
-* Java 17
+* Java Amazon Corretto 17
 * Spring Boot (web, security, data)  
 * PostgreSql (via hibernate) for users and subscriptions details
 * Clickhouse (jdbc) for big data and olap requests 
@@ -31,8 +31,14 @@ If you change your mind or just want to stop tracking this address, one click on
 
 ### Build
 1. Set your ethereum node address in ./server/docker-compose.yaml.  
- ![image](https://github.com/Remittimus/BlockchainAnalysisSystem/assets/56563715/62ca49f0-72de-47c8-ae5a-5839868ab0b1)  
- 
+``` yml 
+environment:
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASS: password
+      ETHEREUM_NODE_URL: <YOUR NODE URL>
+      ZOOKEEPER_ADDRESS: zookeeper:2181
+      KAFKA_ADDRESSES: kafka:19092
+```
 If you don't have an address, you can always get an api-key from infura or alchemy.  
 
 2. Build and up project

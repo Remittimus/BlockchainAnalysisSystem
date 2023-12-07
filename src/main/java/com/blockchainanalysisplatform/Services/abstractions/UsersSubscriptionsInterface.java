@@ -1,4 +1,4 @@
-package com.blockchainanalysisplatform.Services;
+package com.blockchainanalysisplatform.Services.abstractions;
 
 import com.blockchainanalysisplatform.Data.Filter;
 import com.blockchainanalysisplatform.Data.Subscription;

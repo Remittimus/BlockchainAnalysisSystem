@@ -15,7 +15,7 @@ services:
     environment:
       POSTGRES_USER: postgres_user
       POSTGRES_PASS: password
-      ETHEREUM_NODE_URL: 
+      ETHEREUM_NODE_URL:
       ZOOKEEPER_ADDRESS: zookeeper:2181
       KAFKA_ADDRESSES: kafka:19092
 

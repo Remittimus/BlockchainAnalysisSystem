@@ -6,6 +6,7 @@ import com.blockchainanalysisplatform.Data.User;
 import com.blockchainanalysisplatform.Repositories.JDBCClickhouseTransactionRepository;
 import com.blockchainanalysisplatform.RepositoriesJPA.SubscriptionRepository;
 import com.blockchainanalysisplatform.RepositoriesJPA.UserRepository;
+import com.blockchainanalysisplatform.Services.abstractions.UsersSubscriptionsInterface;
 import com.google.common.hash.Hashing;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @AllArgsConstructor
-public class UsersSubscriptionsService implements UsersSubscriptionsInterface{
+public class UsersSubscriptionsService implements UsersSubscriptionsInterface {
 
     private UserRepository uRepo;
     private SubscriptionRepository sRepo;
