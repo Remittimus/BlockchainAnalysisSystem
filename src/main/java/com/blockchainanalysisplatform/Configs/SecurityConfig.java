@@ -1,6 +1,6 @@
 package com.blockchainanalysisplatform.Configs;
 
-import com.blockchainanalysisplatform.Data.User;
+
 import com.blockchainanalysisplatform.RepositoriesJPA.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,13 +25,8 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepo) {
-        return username -> {
-            User user = userRepo.findByUsername(username);
-            if (user != null) return user;
-            user = userRepo.findByEmail(username);
-            if (user != null) return user;
-            throw new UsernameNotFoundException("User " + username + " not found");
-        };
+        return username -> userRepo.findByEmailOrUsername(username, username)
+                .orElseThrow(() -> new UsernameNotFoundException("User " + username + " not found"));
     }
 
 
