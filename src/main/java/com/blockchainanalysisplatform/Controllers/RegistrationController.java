@@ -34,7 +34,7 @@ public class RegistrationController {
     @PostMapping
     public String processRegistration(@Valid @ModelAttribute User user, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors() || userRepo.findByEmailOrUsername(user.getEmail(),user.getUsername())!=null ) {
+        if (bindingResult.hasErrors() || userRepo.findByEmailOrUsername(user.getEmail(), user.getUsername()).isPresent()) {
             return "redirect:/registration?error";
         }
 
