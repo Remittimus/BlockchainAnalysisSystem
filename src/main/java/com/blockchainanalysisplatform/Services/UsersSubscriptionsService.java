@@ -9,6 +9,7 @@ import com.blockchainanalysisplatform.RepositoriesJPA.UserRepository;
 import com.blockchainanalysisplatform.Services.abstractions.UsersSubscriptionsInterface;
 import com.google.common.hash.Hashing;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -24,10 +25,10 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface {
     private EventeumService unsubscribeEventeum;
 
 
-    public void deleteSubscription(String subscriptionId,Long userId){
+    public void deleteSubscription(String subscriptionId, Long userId) {
 
-
-        User userDb = uRepo.findById(userId).get();
+//        User userDb = uRepo.findById(userId).get();
+        User userDb = uRepo.findById(userId).orElseThrow(() -> new UsernameNotFoundException("User not found in delete function"));
 
         Optional<Subscription> optionalSubscription = sRepo.findById(subscriptionId);
         if (optionalSubscription.isPresent()) {
@@ -36,7 +37,7 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface {
             userDb.removeSubscription(existingSubscription);
             uRepo.save(userDb);
 
-            if(existingSubscription.getUsers().isEmpty()){ //if after user deleting list of users is empty
+            if (existingSubscription.getUsers().isEmpty()) { //if after user deleting list of users is empty
                 sRepo.deleteById(existingSubscription.getId());
                 clickRepo.deleteKafkaMaterialViewById(existingSubscription.getId());
                 clickRepo.deleteTableMaterialViewById(existingSubscription.getId());
@@ -44,7 +45,7 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface {
                 clickRepo.deleteTableById(existingSubscription.getId());
 
                 optionalSubscription = sRepo.findByTopicId(existingSubscription.getTopicId());
-                if(optionalSubscription.isEmpty()){//if in table after deleting subscription no entity with this address
+                if (optionalSubscription.isEmpty()) {//if in table after deleting subscription no entity with this address
                     clickRepo.deleteKafkaById(existingSubscription.getTopicId());
                     unsubscribeEventeum.unsubscribe(existingSubscription.getTopicId());
                 }
@@ -54,40 +55,33 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface {
         }
     }
 
-    public void updatingUsersAndSubscriptions(Subscription subscription, User user, Filter filter){
+    public void updatingUsersAndSubscriptions(Subscription subscription, User user, Filter filter) {
 
-        //User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            //Optional<User>  optionalUser= uRepo.findById(user.getId());
-            User userDb = uRepo.findById(user.getId()).get();
-            if(!filter.isEmpty()){
-                subscription.setId(Hashing.sha256()
-                        .hashString(subscription.getTopicId()+filter, StandardCharsets.UTF_8)
-                        .toString());
+//        User userDb = uRepo.findById(user.getId()).get();
+        User userDb = uRepo.findById(user.getId()).orElseThrow(() -> new UsernameNotFoundException("User not found in update function"));
+        if (!filter.isEmpty()) {
+            subscription.setId(Hashing.sha256()
+                    .hashString(subscription.getTopicId() + filter, StandardCharsets.UTF_8)
+                    .toString());
+        }
 
-            }
+        Optional<Subscription> optionalSubscription = sRepo.findById(subscription.getId());
+        if (optionalSubscription.isPresent()) {
+            Subscription existingSubscription = optionalSubscription.get();
 
-            Optional<Subscription> optionalSubscription = sRepo.findById(subscription.getId());
-            if (optionalSubscription.isPresent()) {
-                Subscription existingSubscription = optionalSubscription.get();
+            if (!existingSubscription.getUsers().contains(userDb)) { //if other user create this subscription
 
-
-                if (!existingSubscription.getUsers().contains(userDb)) { //if other user create this subscription
-
-
-                    existingSubscription.addNewUser(userDb);
-
-                    uRepo.save(userDb);
-
-                }
-            } else { //if its new subscription for all users
-
-                userDb.addNewSubscription(subscription);
+                existingSubscription.addNewUser(userDb);
                 uRepo.save(userDb);
-                clickRepo.createTablesAfterSubscription( subscription,filter);
-                clickRepo.createAnalysisTablesAfterSubscription(subscription);
 
             }
+        } else { //if its new subscription for all users
 
+            userDb.addNewSubscription(subscription);
+            uRepo.save(userDb);
+            clickRepo.createTablesAfterSubscription(subscription, filter);
+            clickRepo.createAnalysisTablesAfterSubscription(subscription);
 
+        }
     }
 }

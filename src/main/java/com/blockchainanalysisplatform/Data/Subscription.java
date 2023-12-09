@@ -58,17 +58,15 @@ public class Subscription {
     @Override
     public boolean equals(Object s) {
         if (this == s) return true;
-        if (!(s instanceof Subscription)) return false;
-        Subscription subscription = (Subscription) s;
+        if (!(s instanceof Subscription subscription)) return false;
         return (
                 Objects.equals(this.getId(),subscription.getId()) &&
-                Objects.equals(this.getFilter(),subscription.getFilter())&&
+                Objects.equals(this.getFilter(),subscription.getFilter()) &&
                 Objects.equals(this.getTopicId(),subscription.getTopicId()));
     }
 
     @Override
     public int hashCode() {
-
         return Objects.hash(getId()+getFilter()+getTopicId());
     }
 
