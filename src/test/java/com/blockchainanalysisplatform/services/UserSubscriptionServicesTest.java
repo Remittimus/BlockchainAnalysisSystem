@@ -3,9 +3,9 @@ package com.blockchainanalysisplatform.services;
 import com.blockchainanalysisplatform.Data.Filter;
 import com.blockchainanalysisplatform.Data.Subscription;
 import com.blockchainanalysisplatform.Data.User;
-import com.blockchainanalysisplatform.Repositories.JDBCClickhouseTransactionRepository;
 import com.blockchainanalysisplatform.RepositoriesJPA.SubscriptionRepository;
 import com.blockchainanalysisplatform.RepositoriesJPA.UserRepository;
+import com.blockchainanalysisplatform.Services.ClickhouseService;
 import com.blockchainanalysisplatform.Services.EventeumService;
 import com.blockchainanalysisplatform.Services.UsersSubscriptionsService;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class UsersSubscriptionsServicesTest {
     private SubscriptionRepository subscriptionRepository;
 
     @Mock
-    private JDBCClickhouseTransactionRepository clickhouseTransactionRepository;
+    private ClickhouseService clickhouseService;
 
     @Mock
     private EventeumService eventeumService;
@@ -39,7 +39,7 @@ class UsersSubscriptionsServicesTest {
     void setUp() {
         MockitoAnnotations.initMocks(this);
         usersSubscriptionsService = new UsersSubscriptionsService(userRepository, subscriptionRepository,
-                clickhouseTransactionRepository, eventeumService);
+                clickhouseService, eventeumService);
     }
 
     @Test
@@ -65,12 +65,12 @@ class UsersSubscriptionsServicesTest {
         verify(subscriptionRepository, times(1)).findById(subscriptionId);
         verify(userRepository, times(1)).save(user);
         verify(subscriptionRepository, times(1)).deleteById(subscriptionId);
-        verify(clickhouseTransactionRepository, times(1)).deleteKafkaMaterialViewById(subscriptionId);
-        verify(clickhouseTransactionRepository, times(1)).deleteTableMaterialViewById(subscriptionId);
-        verify(clickhouseTransactionRepository, times(1)).deleteSumTableById(subscriptionId);
-        verify(clickhouseTransactionRepository, times(1)).deleteTableById(subscriptionId);
+        verify(clickhouseService, times(1)).deleteKafkaMaterialViewById(subscriptionId);
+        verify(clickhouseService, times(1)).deleteTableMaterialViewById(subscriptionId);
+        verify(clickhouseService, times(1)).deleteSumTableById(subscriptionId);
+        verify(clickhouseService, times(1)).deleteTableById(subscriptionId);
         verify(subscriptionRepository, times(1)).findByTopicId(subscription.getTopicId());
-        verify(clickhouseTransactionRepository, times(1)).deleteKafkaById(subscription.getTopicId());
+        verify(clickhouseService, times(1)).deleteKafkaById(subscription.getTopicId());
         verify(eventeumService, times(1)).unsubscribe(subscription.getTopicId());
     }
 
@@ -92,7 +92,7 @@ class UsersSubscriptionsServicesTest {
         verify(userRepository, times(1)).save(user);
         verify(subscriptionRepository, times(1)).findById(subscription.getId());
         verify(userRepository, times(1)).save(user);
-        verify(clickhouseTransactionRepository, times(1)).createTablesAfterSubscription(subscription, filter);
-        verify(clickhouseTransactionRepository, times(1)).createAnalysisTablesAfterSubscription(subscription);
+        verify(clickhouseService, times(1)).createTablesAfterSubscription(subscription, filter);
+        verify(clickhouseService, times(1)).createAnalysisTablesAfterSubscription(subscription);
     }
 }

@@ -35,7 +35,7 @@ public class configDatabases {
 
 
     @Bean
-    ClickHouseDataSource clickhouseConnection(@Value("${clickhouse.url}") String url,
+    ClickHouseDataSource clickhouseDataSource(@Value("${clickhouse.url}") String url,
                                               @Value("${clickhouse.username}")String username,
                                               @Value("${clickhouse.password}")String password) throws SQLException {
 

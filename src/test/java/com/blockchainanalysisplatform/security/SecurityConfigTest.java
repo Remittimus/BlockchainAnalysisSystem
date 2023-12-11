@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -27,7 +29,7 @@ class SecurityConfigTest {
         User user = new User();
         user.setUsername(username);
 
-        when(userRepository.findByUsername(username)).thenReturn(user);
+        when(userRepository.findByEmailOrUsername(username,username)).thenReturn(Optional.of(user));
 
         SecurityConfig securityConfig = new SecurityConfig();
         UserDetailsService userDetailsService = securityConfig.userDetailsService(userRepository);
@@ -38,7 +40,7 @@ class SecurityConfigTest {
         // Assert
         assertNotNull(userDetails);
         assertEquals(username, userDetails.getUsername());
-        verify(userRepository, times(1)).findByUsername(username);
+        verify(userRepository, times(1)).findByEmailOrUsername(username,username);
         //verify(userRepository, never()).findByEmail(username);
     }
 
@@ -47,18 +49,18 @@ class SecurityConfigTest {
         // Arrange
         String username = "testuser";
 
-        when(userRepository.findByUsername(username)).thenReturn(null);
-        when(userRepository.findByEmail(username)).thenReturn(null);
+        when(userRepository.findByEmailOrUsername(username,username)).thenReturn(Optional.empty());
+
 
         SecurityConfig securityConfig = new SecurityConfig();
         UserDetailsService userDetailsService = securityConfig.userDetailsService(userRepository);
 
         // Act and Assert
-        assertThrows(UsernameNotFoundException.class, () -> {
-            userDetailsService.loadUserByUsername(username);
-        });
+        assertThrows(UsernameNotFoundException.class, () ->
+            userDetailsService.loadUserByUsername(username)
+        );
 
-        verify(userRepository, times(1)).findByUsername(username);
-        verify(userRepository, times(1)).findByEmail(username);
+        verify(userRepository, times(1)).findByEmailOrUsername(username,username);
+
     }
 }

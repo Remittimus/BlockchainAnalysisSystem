@@ -11,6 +11,7 @@ import java.time.ZoneOffset;
 @Service
 public class ClickhouseStatementGeneratorService {
 
+
     public String generateStatementForMaterialViewWithFilter(Subscription subscription, Filter filter, String dbName){
 
         StringBuilder result = new StringBuilder(
@@ -47,7 +48,11 @@ public class ClickhouseStatementGeneratorService {
             addWheretoStatement(result,filter);
             if(!filter.getToAddress().isEmpty()) result.append("(to == '").append(filter.getToAddress()).append("') AND");
             if(!filter.getFromAddress().isEmpty()) result.append("(from == '").append(filter.getFromAddress()).append("') AND");
-            result.delete(result.lastIndexOf(" AND"),result.length());
+
+            int lastIndex = result.lastIndexOf(" AND");
+            if( lastIndex == result.length()-4) {
+                result.delete(lastIndex,result.length());
+            }
             result.append(";");
         }
 

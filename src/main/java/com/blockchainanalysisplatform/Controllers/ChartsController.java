@@ -1,7 +1,7 @@
 package com.blockchainanalysisplatform.Controllers;
 
 
-import com.blockchainanalysisplatform.Repositories.JDBCClickhouseTransactionRepository;
+import com.blockchainanalysisplatform.Services.ClickhouseService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public class ChartsController {
 
-    private final JDBCClickhouseTransactionRepository clickRepo;
+    private final ClickhouseService clickService;
     @GetMapping
     public String getController(@RequestParam(name="id" )String id, Model model){
 
-        model.addAttribute("dataForCharts", clickRepo.findDataForChartsById(id));
+        model.addAttribute("dataForCharts", clickService.findDataForChartsById(id));
 
         return "Charts";
     }
