@@ -41,7 +41,6 @@ public class RegisterSubscriptionController {
     public String postController(@Valid @ModelAttribute Subscription subscription, BindingResult bindingResult){
 
         if (bindingResult.hasErrors()) {
-            // Обработка ошибок валидации
             return "redirect:/subscribe?error=Invalid_data";
         }
 

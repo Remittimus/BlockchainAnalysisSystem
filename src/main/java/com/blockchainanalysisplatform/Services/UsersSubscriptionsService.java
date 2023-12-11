@@ -3,7 +3,6 @@ package com.blockchainanalysisplatform.Services;
 import com.blockchainanalysisplatform.Data.Filter;
 import com.blockchainanalysisplatform.Data.Subscription;
 import com.blockchainanalysisplatform.Data.User;
-import com.blockchainanalysisplatform.Repositories.JDBCClickhouseTransactionRepository;
 import com.blockchainanalysisplatform.RepositoriesJPA.SubscriptionRepository;
 import com.blockchainanalysisplatform.RepositoriesJPA.UserRepository;
 import com.blockchainanalysisplatform.Services.abstractions.UsersSubscriptionsInterface;
@@ -21,7 +20,7 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface {
 
     private UserRepository uRepo;
     private SubscriptionRepository sRepo;
-    private JDBCClickhouseTransactionRepository clickRepo;
+    private ClickhouseService clickhouseService;
     private EventeumService unsubscribeEventeum;
 
 
@@ -39,14 +38,14 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface {
 
             if (existingSubscription.getUsers().isEmpty()) { //if after user deleting list of users is empty
                 sRepo.deleteById(existingSubscription.getId());
-                clickRepo.deleteKafkaMaterialViewById(existingSubscription.getId());
-                clickRepo.deleteTableMaterialViewById(existingSubscription.getId());
-                clickRepo.deleteSumTableById(existingSubscription.getId());
-                clickRepo.deleteTableById(existingSubscription.getId());
+                clickhouseService.deleteKafkaMaterialViewById(existingSubscription.getId());
+                clickhouseService.deleteTableMaterialViewById(existingSubscription.getId());
+                clickhouseService.deleteSumTableById(existingSubscription.getId());
+                clickhouseService.deleteTableById(existingSubscription.getId());
 
                 optionalSubscription = sRepo.findByTopicId(existingSubscription.getTopicId());
                 if (optionalSubscription.isEmpty()) {//if in table after deleting subscription no entity with this address
-                    clickRepo.deleteKafkaById(existingSubscription.getTopicId());
+                    clickhouseService.deleteKafkaById(existingSubscription.getTopicId());
                     unsubscribeEventeum.unsubscribe(existingSubscription.getTopicId());
                 }
             }
@@ -79,8 +78,8 @@ public class UsersSubscriptionsService implements UsersSubscriptionsInterface {
 
             userDb.addNewSubscription(subscription);
             uRepo.save(userDb);
-            clickRepo.createTablesAfterSubscription(subscription, filter);
-            clickRepo.createAnalysisTablesAfterSubscription(subscription);
+            clickhouseService.createTablesAfterSubscription(subscription, filter);
+            clickhouseService.createAnalysisTablesAfterSubscription(subscription);
 
         }
     }

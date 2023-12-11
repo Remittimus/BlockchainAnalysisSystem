@@ -51,7 +51,6 @@ class JDBCClickhouseTransactionRepositoryIntegrationTest {
 
             repository.createTablesAfterSubscription(subscription, filter);
             repository.createAnalysisTablesAfterSubscription(subscription);
-            //Statement s = connection.createStatement();
             int count = 0;
             ResultSet rs = s.executeQuery(
                     "SELECT database, name FROM system.tables\n" +

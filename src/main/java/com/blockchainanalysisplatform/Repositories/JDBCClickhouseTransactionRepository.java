@@ -1,9 +1,11 @@
 package com.blockchainanalysisplatform.Repositories;
 
 import com.blockchainanalysisplatform.Data.*;
+import com.blockchainanalysisplatform.Exceptions.DataAccessException;
 import com.blockchainanalysisplatform.Services.ClickhouseStatementGeneratorService;
 import com.clickhouse.jdbc.ClickHouseConnection;
 import com.clickhouse.jdbc.ClickHouseDataSource;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
 
     private final ClickHouseDataSource clickHouseDataSource;
     private final ClickhouseStatementGeneratorService generatorService;
+    @Getter
     private final String dbName;
 
 
@@ -39,12 +42,8 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
         this.kafkaAddresses = kafkaAddresses;
     }
 
-    public String getDbName() {
-        return dbName;
-    }
 
-
-    public ChartData findDataForChartsById(String subscriptionId) {
+    public ChartData findDataForChartsById(String subscriptionId) throws DataAccessException {
         ChartData data = new ChartData();
 
         String query = "SELECT timestamp, value, gasPrice FROM " + dbName + ".sum_" + subscriptionId + " order by timestamp";
@@ -58,14 +57,14 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
                 data.getGasPrices().add((Double) rs.getObject(3));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error accessing data for charts", e);
         }
         return data;
     }
 
 
 
-    public Iterable<ClickhouseTransaction> findByIdWhereFilter(String subscriptionId, OnlineFilter filter) {
+    public Iterable<ClickhouseTransaction> findByIdWhereFilter(String subscriptionId, OnlineFilter filter) throws DataAccessException{
         List<ClickhouseTransaction> results = new ArrayList<>();
 
 
@@ -77,14 +76,14 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
                 results.add(new ClickhouseTransaction(rs));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error accessing data for transactions", e);
         }
         return results;
     }
 
 
     @Override
-    public Iterable<ClickhouseTransaction> findAllById(String subscriptionId) {
+    public Iterable<ClickhouseTransaction> findAllById(String subscriptionId) throws DataAccessException{
         List<ClickhouseTransaction> results = new ArrayList<>();
 
         String query = "SELECT * FROM " + dbName + ".id_" + subscriptionId;
@@ -97,14 +96,14 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
                 );
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error accessing data for transactions", e);
         }
 
         return results;
     }
 
 
-    public void deleteKafkaMaterialViewById(String id) {
+    public void deleteKafkaMaterialViewById(String id) throws DataAccessException{
 
         String query = "drop table IF EXISTS " + dbName + ".kafka_" + id + "_mv;";
         try (ClickHouseConnection connection = clickHouseDataSource.getConnection()) {
@@ -113,12 +112,12 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
             ps.executeQuery();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error deleting Kafka's material view in clickhouse", e);
         }
     }
 
 
-    public void deleteTableById(String id) {
+    public void deleteTableById(String id) throws DataAccessException{
 
         String query = "drop table IF EXISTS " + dbName + ".id_" + id + ";";
         try (ClickHouseConnection connection = clickHouseDataSource.getConnection()) {
@@ -127,13 +126,13 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
             ps.executeQuery();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error deleting transactions table in clickhouse", e);
         }
 
     }
 
 
-    public void deleteKafkaById(String topicId) {
+    public void deleteKafkaById(String topicId) throws DataAccessException{
 
         String query = "drop table IF EXISTS " + dbName + ".kafka_" + topicId + ";";
         try (ClickHouseConnection connection = clickHouseDataSource.getConnection()) {
@@ -142,14 +141,14 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
             ps.executeQuery();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error deleting kafka table in clickhouse", e);
         }
 
     }
 
 
     @Override
-    public void createTablesAfterSubscription(Subscription subscription, Filter filter) {
+    public void createTablesAfterSubscription(Subscription subscription, Filter filter) throws DataAccessException{
 
         String queryCreateDatabase = "CREATE DATABASE IF NOT EXISTS " + dbName + ";";
         String queryCreateKafkaTable = "CREATE TABLE IF NOT EXISTS " + dbName + ".kafka_" + subscription.getTopicId() + "(\n" +
@@ -199,7 +198,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
             psCreateMaterialViews.executeQuery();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error creating tables in clickhouse", e);
         }
 
 
@@ -207,7 +206,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
     }
 
 
-    public void createAnalysisTablesAfterSubscription(Subscription subscription) {
+    public void createAnalysisTablesAfterSubscription(Subscription subscription) throws DataAccessException{
 
 
         String queryStatisticsTable = "CREATE TABLE IF NOT EXISTS " + dbName + ".sum_" + subscription.getId() + "\n" +
@@ -236,13 +235,13 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
 
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error creating analysis tables in clickhouse", e);
         }
 
     }
 
 
-    public void deleteSumTableById(String id) {
+    public void deleteSumTableById(String id) throws DataAccessException{
         String query = "drop table IF EXISTS " + dbName + ".sum_" + id + ";";
         try (ClickHouseConnection connection = clickHouseDataSource.getConnection()) {
             PreparedStatement ps = connection.prepareStatement(query);
@@ -250,7 +249,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
             ps.executeQuery();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error deleting sum table in clickhouse", e);
         }
 
     }
@@ -258,7 +257,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
 
 
 
-    public void deleteTableMaterialViewById(String id) {
+    public void deleteTableMaterialViewById(String id) throws DataAccessException{
 
         String query = "drop table IF EXISTS " + dbName + ".id_" + id + "_mv;";
         try (ClickHouseConnection connection = clickHouseDataSource.getConnection()) {
@@ -267,7 +266,7 @@ public class JDBCClickhouseTransactionRepository implements ClickhouseTransactio
             ps.executeQuery();
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            throw new DataAccessException("Error deleting sum table in clickhouse", e);
         }
 
     }
